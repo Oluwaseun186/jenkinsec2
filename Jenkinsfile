@@ -27,12 +27,6 @@ pipeline {
             echo "this is just a step"
         }
         success {
-            echo "this is success step"
-        }
-        failure {
-            echo "this is failure step."
-        }
-        success {
             emailext subject: "Build Success: ${env.JOB_NAME}",
                      body: "Good news! The build succeeded.\nCheck details: ${env.BUILD_URL}",
                      to: 'adewumibode7@gmail.com'
