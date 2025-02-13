@@ -30,7 +30,7 @@ pipeline {
             echo "this is success step"
         }
         failure {
-            echo "this is failure step"
+            echo "this is failure step."
         }
     }
 }
