@@ -33,4 +33,17 @@ pipeline {
             echo "this is failure step."
         }
     }
+
+    post {
+        success {
+            emailext subject: "Build Success: ${env.JOB_NAME}",
+                     body: "Good news! The build succeeded.\nCheck details: ${env.BUILD_URL}",
+                     to: 'adewumibode7@gmail.com'
+        }
+        failure {
+            emailext subject: "Build Failed: ${env.JOB_NAME}",
+                     body: "Oops! The build failed.\nCheck details: ${env.BUILD_URL}",
+                     to: 'shopar200@gmail.com'
+        }
+    }
 }
