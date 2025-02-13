@@ -27,14 +27,21 @@ pipeline {
             echo "this is just a step"
         }
         success {
-            emailext subject: "Build Success: ${env.JOB_NAME}",
-                     body: "Good news! The build succeeded.\nCheck details: ${env.BUILD_URL}",
-                     to: 'adewumibode7@gmail.com'
+            emailext(
+                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+                body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
+                to: "adewumibode7@gmail.com",
+                replyTo: "shopar200@gmail.com",
+                from: "adewumibode7@gmail.com"
+            )
         }
         failure {
-            emailext subject: "Build Failed: ${env.JOB_NAME}",
-                     body: "Oops! The build failed.\nCheck details: ${env.BUILD_URL}",
-                     to: 'shopar200@gmail.com'
+            emailext(
+                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+                body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
+                to: "adewumibode7@gmail.com",
+                replyTo: "shopar200@gmail.com",
+                from: "adewumibode7@gmail.com"
+            )
         }
-    }
 }
