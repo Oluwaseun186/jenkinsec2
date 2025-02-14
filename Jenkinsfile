@@ -13,7 +13,7 @@ pipeline {
                  git "https://github.com/Oluwaseun186/jenkinsfile.git"
             }     
         }
-        
+
         stage('building') {
             // when{
             //     expression{
@@ -37,7 +37,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo "this is building step."
+                echo "this is building step.."
             }
         }
     }
