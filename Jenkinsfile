@@ -28,7 +28,7 @@ pipeline {
         }
         success {
             emailext(
-                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}", ${BUILD_NUMBER} - ${BUILD_STATUS}, Job: ${JOB_NAME},${env.BUILD_LOG}, ${env.BUILD_URL}
+                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${BUILD_NUMBER} - ${BUILD_STATUS}, ${JOB_NAME},${env.BUILD_LOG}, ${env.BUILD_URL}",
                 body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
                 to: "shopar200@gmail.com",
                 replyTo: "shopar200@gmail.com",
@@ -37,7 +37,7 @@ pipeline {
         }
         failure {
             emailext(
-                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}", ${env.BUILD_NUMBER} - ${BUILD_STATUS}, Job: ${JOB_NAME},${env.BUILD_LOG}, ${BUILD_URL}
+                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER} - ${BUILD_STATUS}, Job: ${JOB_NAME},${env.BUILD_LOG}, ${BUILD_URL}",
                 body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
                 to: "shopar200@gmail.com",
                 replyTo: "shopar200@gmail.com",
