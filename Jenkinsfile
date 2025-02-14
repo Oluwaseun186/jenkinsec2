@@ -16,10 +16,10 @@ pipeline {
                 script{
                     try{
                         sh "shh -o -i tester.key root@123.222.222.23.22"
+                        echo "successfully built"
                     }catch(err){
-
                     if(err){
-                        currentBuild.result = "failure"
+                        currentBuild.result = ${build_log}
                         throw err
                     }
                     }
