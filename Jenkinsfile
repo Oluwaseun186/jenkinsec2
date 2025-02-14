@@ -20,24 +20,17 @@ pipeline {
             steps {
                 script{
                     try{
-                        sh "npm run test  | tee build.log"
+                        sh "npm run tes  | tee build.log"
                        
                     }catch(Exception err){
-                        if(currentBuild.currentResult == "FAILURE"){
-                        failure {
-                                script{
-                                    //def build_log = currentBuild.rawBuild.getLog(100).join('\n') 
-                                    //def build_log = Manager.build.log
-                                    def build_log = readFile("build.log")
-                                        emailext(
-                                            subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME}, ${build_log},  ${BUILD_URL}",
-                                            body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
-                                            to: "shopar200@gmail.com",
-                                            replyTo: "shopar200@gmail.com",
-                                            from: "adewumibode7@gmail.com"
-                                        )                    
-                                }
-                        }
+                        script{
+                            emailext(
+                                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME}, ${err},  ${BUILD_URL}",
+                                body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
+                                to: "shopar200@gmail.com",
+                                replyTo: "shopar200@gmail.com",
+                                from: "adewumibode7@gmail.com"
+                            )
                         }
                         throw err
                     
