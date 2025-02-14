@@ -5,8 +5,8 @@ pipeline {
 
     stages {
 
-           tools {
-        nodejs "node18"
+        tools {
+            nodejs "node18"
     }
         stage('checkout') {
             steps{
