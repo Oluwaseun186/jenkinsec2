@@ -1,7 +1,7 @@
 pipeline {
     agent any
         tools {
-            nodejs "node18"
+            nodejs "node 18"
     }
 
     stages {
@@ -12,11 +12,11 @@ pipeline {
         }
 
         stage('building') {
-            // when{
-            //     expression{
-            //         BRANCH_NAME == "testing"
-            //     }
-            // }
+             when{
+                 expression{
+                    BRANCH_NAME == "testing"
+                 }
+             }
             steps {
                 script{
                     try{
@@ -56,7 +56,7 @@ pipeline {
                 script{
                      //def build_log = currentBuild.rawBuild.getLog(100).join('\n') 
                      //def build_log = Manager.build.log
-                     def build_log = readFile("build.log")
+                     //def build_log = readFile("build.log")
                         emailext(
                             subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME}, ${build_log},  ${BUILD_URL}",
                             body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
