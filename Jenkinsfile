@@ -1,7 +1,7 @@
 pipeline {
     agent any
         tools {
-            nodejs "node 18"
+            nodejs "node18"
     }
 
     stages {
@@ -34,7 +34,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo "this is building step."
+                echo "this is building step.."
             }
         }
     }
