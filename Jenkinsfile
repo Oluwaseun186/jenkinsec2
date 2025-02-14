@@ -23,7 +23,7 @@ pipeline {
                         sh "npm run tes  | tee build.log"
                        
                     }catch(Exception err){
-                        message=err.,message(
+                        message = err.message(
                             script{
                             emailext(
                                 subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME}, ${err},  ${BUILD_URL}",
