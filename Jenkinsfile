@@ -28,9 +28,10 @@ pipeline {
         }
         success {
             emailext(
-                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}", <h2>Build ${BUILD_NUMBER} - ${BUILD_STATUS}</h2>
-                            <p>Job: ${JOB_NAME}</p>
-                            <p>Build URL: <a href="${BUILD_URL}">${BUILD_URL}</a></p>
+                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}", 
+                content:<h2>Build ${BUILD_NUMBER} - ${BUILD_STATUS}</h2>
+                        <p>Job: ${JOB_NAME}</p>
+                        <p>Build URL: <a href="${BUILD_URL}">${BUILD_URL}</a></p>
 
                 body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
                 to: "shopar200@gmail.com",
