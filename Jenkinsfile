@@ -15,29 +15,25 @@ pipeline {
             steps {
                 script{
                     try{
-                        sh "shh -o -i tester.key root@123.222.222.23.22"
+                        sh "shh -o -i tester.key root@123.222.33.44"
                        
-                    }catch(err){
+                    }catch(Exception err){
                         currentBuild.result = "failure"
+
                         throw err
                     
                     }
                 }
-                echo "This is building step"
             }
         }
 
-        stage('Test') {
-            steps {
-                echo "this is testing step"
-            }
-        }
         stage('Deploy') {
             steps {
                 echo "this is building step."
             }
         }
     }
+    
     post {
         // always {
         //     echo "this is just a step.."
