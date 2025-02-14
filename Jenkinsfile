@@ -1,13 +1,10 @@
 pipeline {
     agent any
-
- 
-
-    stages {
-
         tools {
             nodejs "node18"
     }
+
+    stages {
         stage('checkout') {
             steps{
                  git "https://github.com/Oluwaseun186/jenkinsfile.git"
