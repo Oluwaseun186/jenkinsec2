@@ -13,6 +13,7 @@ pipeline {
                  git "https://github.com/Oluwaseun186/jenkinsfile.git"
             }     
         }
+        
         stage('building') {
             // when{
             //     expression{
