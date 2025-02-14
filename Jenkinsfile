@@ -18,7 +18,7 @@ pipeline {
                         sh "shh -o -i tester.key root@123.222.222.23.22"
                     }catch(err){
                     if(err){
-                        currentBuild.result = "FAILURE"
+                        currentBuild.result = "failure"
                         throw err
                     }
                     }
@@ -51,9 +51,9 @@ pipeline {
                 from: "adewumibode7@gmail.com"
             )
         }
-        FAILURE {
-            build_log = currentBuild.rawBuild.getLog(100)
-            echo build_log
+        failure {
+            def build_log = currentBuild.rawBuild.getLog(100)
+            echo $build_log
             emailext(
                 subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME},${env.BUILD_LOG}, ${BUILD_URL}",
                 body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
