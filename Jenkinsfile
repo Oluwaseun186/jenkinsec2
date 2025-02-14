@@ -6,12 +6,12 @@ pipeline {
                  echo "this is checkout"
             }     
         }
-        stage('Build') {
-            when{
-                expression{
-                    BRANCH_NAME == "testing"
-                }
-            }
+        stage('building') {
+            // when{
+            //     expression{
+            //         BRANCH_NAME == "testing"
+            //     }
+            // }
             steps {
                 script{
                     try{
@@ -33,7 +33,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         // always {
         //     echo "this is just a step.."
