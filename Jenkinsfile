@@ -23,7 +23,8 @@ pipeline {
                         sh "npm run tes  | tee build.log"
                        
                     }catch(Exception err){
-                        script{
+                        message=err.,message(
+                            script{
                             emailext(
                                 subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME}, ${err},  ${BUILD_URL}",
                                 body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
@@ -32,8 +33,8 @@ pipeline {
                                 from: "adewumibode7@gmail.com"
                             )
                         }
-                        throw err
-                    
+                        )
+                        echo "error is ${err.getMessage}"
                     }
                 }
             }
