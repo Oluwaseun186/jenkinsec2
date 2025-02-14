@@ -41,7 +41,7 @@ pipeline {
     }
     post {
         always {
-            echo "this is just a step"
+            echo "this is just a step."
         }
         success {
             emailext(
