@@ -1,6 +1,13 @@
 pipeline {
     agent any
+
+ 
+
     stages {
+        
+           tools {
+        nodejs "node18"
+    }
         stage('checkout') {
             steps{
                  echo "this is checkout"
@@ -15,7 +22,7 @@ pipeline {
             steps {
                 script{
                     try{
-                        sh "sh -o -i tester.key root@123.222.33.44"
+                        sh "npm run build  | tee build.log"
                        
                     }catch(Exception err){
                         currentBuild.result = "failure"
@@ -49,7 +56,7 @@ pipeline {
         // }
         failure {
                 script{
-                     def build_log = currentBuild.rawBuild.getLog(100).join('\n') 
+                     //def build_log = currentBuild.rawBuild.getLog(100).join('\n') 
                      //def build_log = Manager.build.log
                         emailext(
                             subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME}, ${build_log},  ${BUILD_URL}",
