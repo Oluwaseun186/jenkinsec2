@@ -7,10 +7,26 @@ pipeline {
             }     
         }
         stage('Build') {
+            when{
+                expression{
+                    BRANCH_NAME == "testing"
+                }
+            }
             steps {
+                script{
+                    try{
+                        sh "shh -o -i tester.key root@123.222.222.23.22"
+                    }catch(err){
+                    if(err){
+                        currentBuild.result = "FAILURE"
+                        throw err
+                    }
+                    }
+                }
                 echo "This is building step"
             }
         }
+
         stage('Test') {
             steps {
                 echo "this is testing step"
@@ -35,7 +51,9 @@ pipeline {
                 from: "adewumibode7@gmail.com"
             )
         }
-        failure {
+        FAILURE {
+            build_log = currentBuild.rawBuild.getLog(100)
+            echo build_log
             emailext(
                 subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME},${env.BUILD_LOG}, ${BUILD_URL}",
                 body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
