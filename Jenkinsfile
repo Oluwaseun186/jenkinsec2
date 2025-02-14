@@ -21,7 +21,6 @@ pipeline {
                 script{
                     try{
                         sh 'touch build.log'
-                        sh 'echo "Build log" > build.log'
                         sh "npm install"
                         sh "npm run build"
                         sh "npm run test"
