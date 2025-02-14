@@ -14,7 +14,7 @@ pipeline {
         stage('building') {
              when{
                  expression{
-                    BRANCH_NAME == "testing"
+                    BRANCH_NAME == "testing."
                  }
              }
             steps {
