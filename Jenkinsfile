@@ -16,12 +16,11 @@ pipeline {
                 script{
                     try{
                         sh "shh -o -i tester.key root@123.222.222.23.22"
-                        echo "successfully built"
+                       
                     }catch(err){
-                    if(err){
                         currentBuild.result = ${build_log}
                         throw err
-                    }
+                    
                     }
                 }
                 echo "This is building step"
@@ -40,9 +39,9 @@ pipeline {
         }
     }
     post {
-        always {
-            echo "this is just a step.."
-        }
+        // always {
+        //     echo "this is just a step.."
+        // }
         // success {
         //     emailext(
         //         subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${BUILD_NUMBER}  ${JOB_NAME},${env.BUILD_LOG}, ${env.BUILD_URL}",
@@ -57,7 +56,7 @@ pipeline {
                      //def build_log = currentBuild.rawBuild.getLog(100).join('\n') 
                      def build_log = Manager.build.log
                         emailext(
-                            subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME},${env.BUILD_LOG}, ${BUILD_URL}", ${build_log},
+                            subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME}, ${build_log},  ${BUILD_URL}",
                             body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
                             to: "adewumibode7@gmail.com",
                             replyTo: "adewumibode7@gmail.com",
