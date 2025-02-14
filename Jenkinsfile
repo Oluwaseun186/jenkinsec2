@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script{
                     try{
-                        sh "shh -o -i tester.key root@123.222.33.44"
+                        sh "sh -o -i tester.key root@123.222.33.44"
                        
                     }catch(Exception err){
                         currentBuild.result = "failure"
