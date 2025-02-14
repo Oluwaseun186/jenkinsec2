@@ -61,7 +61,7 @@ pipeline {
                             body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
                             to: "adewumibode7@gmail.com",
                             replyTo: "adewumibode7@gmail.com",
-                            from: "adewumibode7@gmail.com"
+                            from: "shopar200@gmail.com"
                         )                    
                 }
         }
