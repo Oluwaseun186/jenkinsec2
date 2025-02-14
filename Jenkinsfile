@@ -55,7 +55,7 @@ pipeline {
         failure {
                 script{
                      //def build_log = currentBuild.rawBuild.getLog(100).join('\n') 
-                     def build_log = Manager.build.getLog
+                     def build_log = Manager.build.log
                         emailext(
                             subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME},${env.BUILD_LOG}, ${BUILD_URL}", ${build_log},
                             body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
