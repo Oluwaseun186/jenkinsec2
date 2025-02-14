@@ -20,21 +20,14 @@ pipeline {
             steps {
                 script{
                     try{
-                        sh "npm run tes  | tee build.log"
+                        sh 'echo "Build log" > build.log'
+                        sh "npm install"
+                        sh "npm run build"
+                        sh "npm run test"
                        
                     }catch(Exception err){
-                        message = err.message(
-                            script{
-                            emailext(
-                                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME}, ${err},  ${BUILD_URL}",
-                                body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
-                                to: "shopar200@gmail.com",
-                                replyTo: "shopar200@gmail.com",
-                                from: "adewumibode7@gmail.com"
-                            )
-                        }
-                        )
                         echo "error is ${err.getMessage}"
+                        throw err
                     }
                 }
             }
