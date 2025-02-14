@@ -10,7 +10,7 @@ pipeline {
     }
         stage('checkout') {
             steps{
-                 echo "this is checkout"
+                 git "https://github.com/Oluwaseun186/jenkinsfile.git"
             }     
         }
         stage('building') {
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script{
                     try{
-                        sh "npm run build  | tee build.log"
+                        sh "npm run test  | tee build.log"
                        
                     }catch(Exception err){
                         currentBuild.result = "failure"
@@ -36,7 +36,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo "this is building step.."
+                echo "this is building step."
             }
         }
     }
