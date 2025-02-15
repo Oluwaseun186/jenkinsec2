@@ -34,14 +34,15 @@ pipeline {
                 //     }
                 }
             }
-        }
-
         stage('Deploy') {
+
             steps {
                 echo "this is building step."
             }
         }
-    
+      
+    }
+
 
     post {
         always {
