@@ -5,12 +5,12 @@ pipeline {
     }
 
      stages {
-        stage('checkout') {
+        // stage('checkout') {
             // checkout all files
-            steps{
-                 git "https://github.com/Oluwaseun186/jenkinsfile.git"
-            }     
-        }
+        //     steps{
+        //          git "https://github.com/Oluwaseun186/jenkinsfile.git"
+        //     }     
+        // }
 
         stage('build') {
              when{
