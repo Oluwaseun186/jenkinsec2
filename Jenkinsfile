@@ -6,42 +6,43 @@ pipeline {
 
     stages {
         stage('checkout') {
-            // checkout all files in the directory
-        //     steps{
-        //          git "https://github.com/Oluwaseun186/jenkinsfile.git"
-        //     }     
-        // }
+                // checkout all files in the directory
+            //     steps{
+            //          git "https://github.com/Oluwaseun186/jenkinsfile.git"
+            //     }     
+            // }
 
         stage('build') {
-             when{
-                 expression{
+            when{
+                expression{
                     BRANCH_NAME == "testing."
-                 }
-             }
+                    }
+                }
             steps {
 
                 echo "this is building step."
-                // script{
-                //     try{
-                //         sh 'touch build.log'
-                //         sh "npm install"
-                //         sh "npm run build"
-                //         sh "npm run test"
-                       
-                //     }catch(Exception err){
-                //         echo "error is ${err.getMessage}"
-                //         throw err
-                //     }
-                // }
+                    // script{
+                    //     try{
+                    //         sh 'touch build.log'
+                    //         sh "npm install"
+                    //         sh "npm run build"
+                    //         sh "npm run test"
+                        
+                    //     }catch(Exception err){
+                    //         echo "error is ${err.getMessage}"
+                    //         throw err
+                    //     }
+                    // }
+                }
             }
-        }
 
         stage('Deploy') {
             steps {
                 echo "this is building step."
+                }
             }
         }
-    }
+    }    
 
     post {
         always {
