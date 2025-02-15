@@ -60,7 +60,7 @@ pipeline {
                      def build_log = readFile("build.log")
                         emailext(
                             subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME}, ${build_log},  ${BUILD_URL}",
-                            body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}, ${build_log}, ${env.BUILD_NUMBER},"
+                            body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}, ${build_log}, ${env.BUILD_NUMBER}",
                             to: "shopar200@gmail.com",
                             replyTo: "shopar200@gmail.com",
                             from: "adewumibode7@gmail.com"
