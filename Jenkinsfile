@@ -1,16 +1,16 @@
 pipeline {
     agent any
-    //     tools {
-    //         nodejs "node18"
-    // }
+        tools {
+            nodejs "node18"
+    }
 
      stages {
-    //     stage('checkout') {
-    //         // checkout all files
-    //     //     steps{
-    //     //          git "https://github.com/Oluwaseun186/jenkinsfile.git"
-    //     //     }     
-    //     // }
+        stage('checkout') {
+            // checkout all files
+            steps{
+                 git "https://github.com/Oluwaseun186/jenkinsfile.git"
+            }     
+        }
 
         stage('build') {
              when{
