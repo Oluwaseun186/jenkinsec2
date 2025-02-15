@@ -1,8 +1,8 @@
 pipeline {
     agent any
-        tools {
-            nodejs "node18"
-    }
+    //     tools {
+    //         nodejs "node18"
+    // }
 
     stages {
         stage('checkout') {
@@ -18,18 +18,20 @@ pipeline {
                  }
              }
             steps {
-                script{
-                    try{
-                        sh 'touch build.log'
-                        sh "npm install"
-                        sh "npm run build"
-                        sh "npm run test"
+
+                echo "this is building step."
+                // script{
+                //     try{
+                //         sh 'touch build.log'
+                //         sh "npm install"
+                //         sh "npm run build"
+                //         sh "npm run test"
                        
-                    }catch(Exception err){
-                        echo "error is ${err.getMessage}"
-                        throw err
-                    }
-                }
+                //     }catch(Exception err){
+                //         echo "error is ${err.getMessage}"
+                //         throw err
+                //     }
+                // }
             }
         }
 
