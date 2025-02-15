@@ -6,10 +6,11 @@ pipeline {
 
     stages {
         stage('checkout') {
-            steps{
-                 git "https://github.com/Oluwaseun186/jenkinsfile.git"
-            }     
-        }
+            // checkout all files in the directory
+        //     steps{
+        //          git "https://github.com/Oluwaseun186/jenkinsfile.git"
+        //     }     
+        // }
 
         stage('build') {
              when{
