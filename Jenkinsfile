@@ -41,7 +41,7 @@ pipeline {
                 echo "this is building step."
             }
         }
-    }
+    
 
     post {
         always {
