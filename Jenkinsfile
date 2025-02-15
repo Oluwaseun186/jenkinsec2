@@ -4,7 +4,7 @@ pipeline {
     //         nodejs "node18"
     // }
 
-    // stages {
+     stages {
     //     stage('checkout') {
     //         // checkout all files
     //     //     steps{
