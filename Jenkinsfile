@@ -13,6 +13,8 @@ pipeline {
         // }
 
         stage('build') {
+
+            // PASSING BRANCH NAME AS A CONDITION
              when{
                  expression{
                     BRANCH_NAME == "testing."
@@ -21,6 +23,7 @@ pipeline {
             steps {
 
                 echo "this is building step."
+                // RUNNING NPM INSTALL AND TESTING WHETHER THE INSTALLTION ACHIEVED
                 // script{
                 //     try{
                 //         sh 'touch build.log'
@@ -43,7 +46,7 @@ pipeline {
       
     }
 
-
+    // POST BUILD FOR FAILURE AND SUCCESS OF RUN JOBS
     post {
         always {
             echo "this is just a step.."
