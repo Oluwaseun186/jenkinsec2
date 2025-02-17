@@ -4,7 +4,7 @@ pipeline {
             nodejs "node18"
     }
     environment {
-        DOCKER_IMAGE = "oluwaseun186/myapp"
+        DOCKER_IMAGE = "oluwaseun7/myapp"
         DOCKER_TAG = "1.0.1"
     }
     stages {
