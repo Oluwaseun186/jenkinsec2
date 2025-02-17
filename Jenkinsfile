@@ -8,7 +8,7 @@ pipeline {
         stage('checkout') {
            // checkout all files
             steps{
-                git branch "origin", url: "https://github.com/Oluwaseun186/jenkinsfile.git"
+                git branch: "origin", url: "https://github.com/Oluwaseun186/jenkinsfile.git"
             }     
         }
 
