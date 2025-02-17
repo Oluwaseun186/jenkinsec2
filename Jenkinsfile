@@ -3,8 +3,11 @@ pipeline {
         tools {
             nodejs "node18"
     }
-
-     stages {
+    environment {
+        DOCKER_IMAGE = "oluwaseun186/myapp"
+        DOCKER_TAG = "1.0.1"
+    }
+    stages {
         stage('checkout') {
            // checkout all files
             steps{
@@ -21,6 +24,7 @@ pipeline {
                  }
              }
             steps {
+
                 sh "npm init -y"   
                 echo "this is building step."
                 // RUNNING NPM INSTALL AND TESTING WHETHER THE INSTALLTION ACHIEVED
@@ -33,16 +37,33 @@ pipeline {
                     }
                 }
                   
-                }
             }
+        }
         stage('Deploy') {
 
-            steps {
+        steps {
                 echo "this is building step."
             }
         }
-      
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG .'
+            }
+        }
+        stage('Login to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: "dockerhub_access", usernameVariable: 'Username', passwordVariable: 'password')]) {
+                    sh 'echo $password | docker login -u $Username --password-stdin'
+                }
+            }
+        }
+        stage('Push Image to Docker Hub') {
+            steps {
+                sh 'docker push $DOCKER_IMAGE:$DOCKER_TAG'
+            }
+        }
     }
+
 
     // POST BUILD FOR FAILURE AND SUCCESS OF RUN JOBS
     post {
