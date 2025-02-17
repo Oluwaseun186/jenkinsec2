@@ -21,20 +21,20 @@ pipeline {
                  }
              }
             steps {
-
+                sh "npm init -y"
                 echo "this is building step."
                 // RUNNING NPM INSTALL AND TESTING WHETHER THE INSTALLTION ACHIEVED
-                // script{
-                //     try{
-                //         sh 'touch build.log'
-                //         sh "npm install"
-                //         sh "npm run build"
-                //         sh "npm run test"
+                script{
+                    try{
+                        sh 'touch build.log'
+                        sh "npm install"
+                        sh "npm run build"
+                        sh "npm run test"
                        
-                //     }catch(Exception err){
-                //         echo "error is ${err.getMessage}"
-                //         throw err
-                //     }
+                    }catch(Exception err){
+                        echo "error is ${err.getMessage} | tee build.log"
+                        throw err
+                    }
                 }
             }
         stage('Deploy') {
