@@ -39,22 +39,47 @@ pipeline {
                   
             }
         }
-        stage('Build Docker Image') {
+    stage('build docker image') {
+
+            // PASSING BRANCH NAME AS A CONDITION
+             when{
+                 expression{
+                    BRANCH_NAME == "testing."
+                 }
+             }
             steps {
-                script{
-                    //build image
-                    sh "docker build -t $DOCKER_IMAGE:$DOCKER_TAG ."
-                    //login to dockerhub
-                    withCredentials([usernamePassword(credentialsId: "dockerhub_access", usernameVariable: 'Username', passwordVariable: 'password')]) {
-                    sh 'echo $password | docker login -u $Username --password-stdin'
+                script {
+                    // echo "Building Docker image: ${dapper01/new-test-image}:${1}"
+                    
+                    // Build Docker image
+                    sh "docker build -t dapper01/new-test-image:1 ."
+
+                    // Use Jenkins credentials to log in to DockerHub securely
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'Username', passwordVariable: 'Password')]) {
+                        sh "echo 'Logging into DockerHub securely...'"
+                        sh "docker login -u $username -p $Password"
                     }
-                    // push to docker hub
-                    sh 'docker push $DOCKER_IMAGE:$DOCKER_TAG'
+
+                    // Push Docker image
+                    sh "docker push dapper01/new-test-image:1"
+                }
+            }
+            steps {
+                echo "this is building step."
+                // RUNNING NPM INSTALL AND TESTING WHETHER THE INSTALLTION ACHIEVED
+                script{
+                    try{
+                        sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                        echo "Docker build successful"
+                    }catch(err){
+                        echo "Docker build failed"
+                    }
                 }
             }
         }
-
-    }
+                    }
+    }    
+ 
 
 
     // POST BUILD FOR FAILURE AND SUCCESS OF RUN JOBS
