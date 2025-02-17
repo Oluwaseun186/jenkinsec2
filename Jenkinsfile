@@ -39,29 +39,21 @@ pipeline {
                   
             }
         }
-        stage('Deploy') {
-
-        steps {
-                echo "this is building step."
-            }
-        }
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t $DOCKER_IMAGE:$DOCKER_TAG . --no-cache"
-            }
-        }
-        stage('Login to Docker Hub') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: "dockerhub_access", usernameVariable: 'Username', passwordVariable: 'password')]) {
+                script{
+                    //build image
+                    sh "docker build -t $DOCKER_IMAGE:$DOCKER_TAG ."
+                    //login to dockerhub
+                    withCredentials([usernamePassword(credentialsId: "dockerhub_access", usernameVariable: 'Username', passwordVariable: 'password')]) {
                     sh 'echo $password | docker login -u $Username --password-stdin'
+                    }
+                    // push to docker hub
+                    sh 'docker push $DOCKER_IMAGE:$DOCKER_TAG'
                 }
             }
         }
-        stage('Push Image to Docker Hub') {
-            steps {
-                sh 'docker push $DOCKER_IMAGE:$DOCKER_TAG'
-            }
-        }
+
     }
 
 
