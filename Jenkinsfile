@@ -9,7 +9,7 @@ pipeline {
             checkout all files
             steps{
                 git branch "origin",
-                git "https://github.com/Oluwaseun186/jenkinsfile.git"
+                url: "https://github.com/Oluwaseun186/jenkinsfile.git"
             }     
         }
 
