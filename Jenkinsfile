@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
         DOCKER_IMAGE = "oluwaseun7/myapp"
-        DOCKER_TAG = "1.0.1"
+        DOCKER_TAG = "1.1.1"
     }
     stages {
         stage('checkout') {
