@@ -33,7 +33,7 @@ pipeline {
                         sh "npm install"
                         echo "Installtion successful"
                     }catch(err){
-                        echo "Installtion failed"
+                        echo "Installtion failed."
                     }
                 }
                   
