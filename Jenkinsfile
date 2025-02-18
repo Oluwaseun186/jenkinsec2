@@ -55,6 +55,8 @@ pipeline {
 
                     // Push Docker image
                     sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                    sh "docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                    sh "docker run -d -p 80:80 ${DOCKER_IMAGE}:${DOCKER_TAG}"
                 }
             }
     
