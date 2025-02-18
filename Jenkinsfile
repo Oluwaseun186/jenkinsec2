@@ -39,6 +39,7 @@ pipeline {
                   
             }
         }
+        stage("build docker image") {
             steps {
                 script {
                     // echo "Building Docker image: ${dapper01/new-test-image}:${1}"
@@ -56,8 +57,9 @@ pipeline {
                     sh "docker push oluwaseun7/new-test-image:1"
                 }
             }
-        }
     
+        }
+    }
 
 
     // POST BUILD FOR FAILURE AND SUCCESS OF RUN JOBS
