@@ -1,92 +1,92 @@
 pipeline {
     agent any
-        tools {
-            nodejs "node18"
+
+    tools {
+        nodejs "node18"
     }
+
     environment {
         DOCKER_IMAGE = "oluwaseun7/myapp"
         DOCKER_TAG = "1.0.1"
     }
+
     stages {
-        stage('checkout') {
-           // checkout all files
-            steps{
-                git branch: "origin", url: "https://github.com/Oluwaseun186/jenkinsfile.git"
+        stage('Checkout') {
+            steps {
+                git branch: "main", url: "https://github.com/Oluwaseun186/jenkinsfile.git"
             }     
         }
 
-        stage('build') {
-
-            // PASSING BRANCH NAME AS A CONDITION
-             when{
-                 expression{
-                    BRANCH_NAME == "testing."
-                 }
-             }
+        stage('Build') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == "testing"
+                }
+            }
             steps {
-
                 sh "npm init -y"   
-                echo "this is building step."
-                // RUNNING NPM INSTALL AND TESTING WHETHER THE INSTALLTION ACHIEVED
-                // script{
-                //     try{
-                //         sh "npm install"
-                //         echo "Installtion successful"
-                //     }catch(err){
-                //         echo "Installtion failed"
-                //     }
-                // }
-                  
+                echo "This is the build step."
+
+                script {
+                    try {
+                        sh "npm install"
+                        echo "Installation successful"
+                    } catch (err) {
+                        echo "Installation failed"
+                    }
+                }
             }
         }
+
+        stage('Docker Build & Push') {
             steps {
                 script {
-                    // echo "Building Docker image: ${dapper01/new-test-image}:${1}"
-                    
-                    // Build Docker image
-                    sh "docker build -t oluwaseun7/new-test-image:1 ."
+                    def imageName = "oluwaseun7/new-test-image:1"
 
-                    // Use Jenkins credentials to log in to DockerHub securely
+                    echo "Building Docker image: ${imageName}"
+                    sh "docker build -t ${imageName} ."
+
                     withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'Username', passwordVariable: 'Password')]) {
-                        sh "echo 'Logging into DockerHub securely...'"
-                        sh "docker login -u $username -p $Password"
+                        echo "Logging into DockerHub securely..."
+                        sh "docker login -u $Username -p $Password"
                     }
 
-                    // Push Docker image
-                    sh "docker push oluwaseun7/new-test-image:1"
+                    echo "Pushing Docker image..."
+                    sh "docker push ${imageName}"
                 }
             }
         }
     }
 
-
-    // POST BUILD FOR FAILURE AND SUCCESS OF RUN JOBS
     post {
         always {
-            echo "this is just a step.."
+            echo "Pipeline execution completed."
         }
+
         success {
-            emailext(
-                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${BUILD_NUMBER}  ${JOB_NAME},${env.BUILD_LOG}, ${env.BUILD_URL}",
-                body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
-                to: "shopar200@gmail.com",
-                replyTo: "shopar200@gmail.com",
-                from: "adewumibode7@gmail.com"
-            )
+            script {
+                emailext(
+                    subject: "Build SUCCESS: Job ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                    body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}",
+                    to: "shopar200@gmail.com",
+                    replyTo: "shopar200@gmail.com",
+                    from: "adewumibode7@gmail.com"
+                )
+            }
         }
+
         failure {
-                script{
-                     //def build_log = currentBuild.rawBuild.getLog(100).join('\n') 
-                     //def build_log = Manager.build.log
-                     def build_log = readFile("build.log")
-                        emailext(
-                            subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}, ${env.BUILD_NUMBER}, ${JOB_NAME}, ${build_log},  ${BUILD_URL}",
-                            body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}, ${build_log}, ${env.BUILD_NUMBER}",
-                            to: "shopar200@gmail.com",
-                            replyTo: "shopar200@gmail.com",
-                            from: "adewumibode7@gmail.com"
-                        )                    
-                }
+            script {
+                def build_log = currentBuild.rawBuild.getLog(50).join('\n') // Get last 50 lines of the log
+                
+                emailext(
+                    subject: "Build FAILURE: Job ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                    body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}\n\nLog:\n${build_log}",
+                    to: "shopar200@gmail.com",
+                    replyTo: "shopar200@gmail.com",
+                    from: "adewumibode7@gmail.com"
+                )                    
+            }
         }
     }
 }
