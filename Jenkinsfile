@@ -25,12 +25,12 @@ pipeline {
              }
             steps {
 
-                sh "npm init -y"   
+                //sh "npm init -y"   
                 echo "this is building step."
                 // RUNNING NPM INSTALL AND TESTING WHETHER THE INSTALLTION ACHIEVED
                 script{
                     try{
-                        sh "npm install"
+                        //sh "npm install"
                         echo "Installtion successful"
                     }catch(err){
                         echo "Installtion failed."
