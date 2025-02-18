@@ -28,31 +28,23 @@ pipeline {
                 sh "npm init -y"   
                 echo "this is building step."
                 // RUNNING NPM INSTALL AND TESTING WHETHER THE INSTALLTION ACHIEVED
-                script{
-                    try{
-                        sh "npm install"
-                        echo "Installtion successful"
-                    }catch(err){
-                        echo "Installtion failed"
-                    }
-                }
+                // script{
+                //     try{
+                //         sh "npm install"
+                //         echo "Installtion successful"
+                //     }catch(err){
+                //         echo "Installtion failed"
+                //     }
+                // }
                   
             }
         }
-    stage('build docker image') {
-
-            // PASSING BRANCH NAME AS A CONDITION
-             when{
-                 expression{
-                    BRANCH_NAME == "testing."
-                 }
-             }
             steps {
                 script {
                     // echo "Building Docker image: ${dapper01/new-test-image}:${1}"
                     
                     // Build Docker image
-                    sh "docker build -t dapper01/new-test-image:1 ."
+                    sh "docker build -t oluwaseun7/new-test-image:1 ."
 
                     // Use Jenkins credentials to log in to DockerHub securely
                     withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'Username', passwordVariable: 'Password')]) {
@@ -61,25 +53,11 @@ pipeline {
                     }
 
                     // Push Docker image
-                    sh "docker push dapper01/new-test-image:1"
-                }
-            }
-            steps {
-                echo "this is building step."
-                // RUNNING NPM INSTALL AND TESTING WHETHER THE INSTALLTION ACHIEVED
-                script{
-                    try{
-                        sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
-                        echo "Docker build successful"
-                    }catch(err){
-                        echo "Docker build failed"
-                    }
+                    sh "docker push oluwaseun7/new-test-image:1"
                 }
             }
         }
-                    }
-    }    
- 
+    }
 
 
     // POST BUILD FOR FAILURE AND SUCCESS OF RUN JOBS
