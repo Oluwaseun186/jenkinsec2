@@ -99,7 +99,7 @@ pipeline {
 
                             #pull and run docker
                             sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
-                            sudo docker run -d -p 3001:8080 --name latest ${DOCKER_IMAGE}:${DOCKER_TAG}
+                            sudo docker run -d -p 3002:8080 --name oldapp ${DOCKER_IMAGE}:${DOCKER_TAG}
                             
                             echo "Deployment Successful"
                         
