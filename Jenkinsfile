@@ -36,7 +36,7 @@ pipeline {
                         echo "Installtion successful"
                     }catch(Exception err){
                         currentBuild.result = "FAILURE"
-                       // sh "echo ${err} | tee builder.log"
+                        sh "echo ${err} | tee builder.log"
                         throw err
                     }
                 }
@@ -47,7 +47,7 @@ pipeline {
             steps {
                 script {
                     // echo "Building Docker image: ${dapper01/new-test-image}:${1}"
-                    
+            
                     // Build Docker image
                   //  sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
 
