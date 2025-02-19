@@ -7,7 +7,7 @@ pipeline {
         DOCKER_IMAGE = "oluwaseun7/myapp"
         DOCKER_TAG = "1.1.1"
         EC2_USER = "ubuntu" // Change if using Amazon Linux ("ec2-user")
-        EC2_IP = "EC2_IP"
+        EC2_IP = "3.91.152.26"
         SSH_KEY = credentials('SSH_KEY') // Store the SSH key in Jenkins credentials
     }
     stages {
