@@ -73,11 +73,10 @@ pipeline {
             steps {
                 script {
                     sh """
-                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP << 'EOF'
-                        sudo apt-get update && sudo apt install -y docker.io
-                        sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
+                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP &&
+                        sudo apt-get update && sudo apt install -y docker.io &&
+                        sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG} &&
                         sudo docker run -d -p 80:80 ${DOCKER_IMAGE}:${DOCKER_TAG}
-                        EOF
                     """
                 }
             }
