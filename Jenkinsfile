@@ -93,7 +93,7 @@ pipeline {
                             
                             # Pull and run the new container
                             sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
-                            sudo docker run -d -p 80:80 --name myapp ${DOCKER_IMAGE}:${DOCKER_TAG}
+                            sudo docker run -d -p 80:90 --name myapp ${DOCKER_IMAGE}:${DOCKER_TAG}
                             
                             echo "Deployment Successful"
                         
