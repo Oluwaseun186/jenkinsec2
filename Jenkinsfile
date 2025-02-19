@@ -89,7 +89,7 @@ pipeline {
     // POST BUILD FOR FAILURE AND SUCCESS OF RUN JOBS
     post {
         changed {
-            echo "this is job as been successfully completed.."
+            echo "this is job as been successfully completed."
         }
         success {
             script{
