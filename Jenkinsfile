@@ -31,12 +31,12 @@ pipeline {
                 script{
                     try{
                         //sh "npm install"
-                        //sh "echo 'Starting build process' > builder.log"
+                        sh "echo 'Starting build process' > builder.log"
                         sh "npm run test | tee builder.log"
                         echo "Installtion successful"
                     }catch(Exception err){
                         currentBuild.result = "FAILURE"
-                        sh "echo ${err} | tee builder.log"
+                       // sh "echo ${err} | tee builder.log"
                         throw err
                     }
                 }
