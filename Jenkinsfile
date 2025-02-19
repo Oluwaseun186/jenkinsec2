@@ -38,7 +38,7 @@ pipeline {
                         //sh "npm run test | tee builder.log"
                         echo "Installtion successful"
                     }catch(Exception err){
-                        currentBuild.result = "FAILURE"
+                        currentBuild.result = "FAILURE."
                         sh "echo ${err} | tee builder.log"
                         throw err
                     }
@@ -62,53 +62,53 @@ pipeline {
 
                     // Push Docker image
                     sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
-                   // sh "docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}"
-                    //sh "docker run -d -p 80:80 ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                    sh "docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                    sh "docker run -d -p 80:80 ${DOCKER_IMAGE}:${DOCKER_TAG}"
                 }
             }
     
         }
 
-        stage('Deploy to EC2') {
-            steps {
-                script {
-                    sh """
-                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP 
-                            echo "Connected to EC2"
+    //     stage('Deploy to EC2') {
+    //         steps {
+    //             script {
+    //                 sh """
+    //                     ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP 
+    //                         echo "Connected to EC2"
                             
-                            # Ensure sudo does not require a password
-                            sudo -n true 2>/dev/null || echo "$EC2_USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$EC2_USER
+    //                         # Ensure sudo does not require a password
+    //                         sudo -n true 2>/dev/null || echo "$EC2_USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$EC2_USER
 
-                            # Update system and install Docker
-                            sudo apt-get update -y
-                            sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+    //                         # Update system and install Docker
+    //                         sudo apt-get update -y
+    //                         sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
-                            # Stop and remove any existing container
-                            # sudo docker stop ${DOCKER_IMAGE}:${DOCKER_TAG} || true
-                            # sudo docker rm ${DOCKER_IMAGE}:${DOCKER_TAG} || true
+    //                         # Stop and remove any existing container
+    //                         # sudo docker stop ${DOCKER_IMAGE}:${DOCKER_TAG} || true
+    //                         # sudo docker rm ${DOCKER_IMAGE}:${DOCKER_TAG} || true
 
-                            # Start Docker service..
-                            #sudo systemctl enable docker
-                            #sudo systemctl start docker
+    //                         # Start Docker service..
+    //                         #sudo systemctl enable docker
+    //                         #sudo systemctl start docker
                                                                 
-                            # check new container
-                            # sudo docker ps -a  # Check running containers
-                            # sudo docker stop myapp
-                            # sudo docker rm myapp
+    //                         # check new container
+    //                         # sudo docker ps -a  # Check running containers
+    //                         # sudo docker stop myapp
+    //                         # sudo docker rm myapp
                             
 
-                            #pull and run docker
-                            sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
-                            sudo docker run -d -p 3002:8080 --name oldapp ${DOCKER_IMAGE}:${DOCKER_TAG}
+    //                         #pull and run docker
+    //                         sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
+    //                         sudo docker run -d -p 3002:8080 --name oldapp ${DOCKER_IMAGE}:${DOCKER_TAG}
                             
-                            echo "Deployment Successful"
+    //                         echo "Deployment Successful"
                         
-                    """
-                }
-            }
-        }
+    //                 """
+    //             }
+    //         }
+    //     }
 
-    }
+    // }
 
 
 
