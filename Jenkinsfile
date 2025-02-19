@@ -6,6 +6,9 @@ pipeline {
     environment {
         DOCKER_IMAGE = "oluwaseun7/myapp"
         DOCKER_TAG = "1.1.1"
+        EC2_USER = "ubuntu" // Change if using Amazon Linux ("ec2-user")
+        EC2_IP = "EC2_IP"
+        SSH_KEY = credentials('SSH_KEY') // Store the SSH key in Jenkins credentials
     }
     stages {
         stage('checkout') {
@@ -65,7 +68,22 @@ pipeline {
             }
     
         }
+
+        stage('Deploy to EC2') {
+            steps {
+                script {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP << 'EOF'
+                        sudo apt update && sudo apt install -y docker.io
+                        sudo docker pull your-docker-image
+                        sudo docker run -d -p 80:80 your-docker-image
+                        EOF
+                    """
+                }
+            }
+        }
     }
+
 
 
     // POST BUILD FOR FAILURE AND SUCCESS OF RUN JOBS
