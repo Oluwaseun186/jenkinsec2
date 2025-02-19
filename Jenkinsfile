@@ -73,14 +73,31 @@ pipeline {
             steps {
                 script {
                     sh """
-                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP &&
-                        sudo apt-get update && sudo apt install -y docker.io &&
-                        sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG} &&
-                        sudo docker run -d -p 80:80 ${DOCKER_IMAGE}:${DOCKER_TAG}
+                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP << 'EOF'
+                            echo "Connected to EC2"
+                            
+                            # Ensure sudo does not require a password
+                            sudo -n true 2>/dev/null || echo "$EC2_USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$EC2_USER
+
+                            # Update system and install Docker
+                            sudo apt-get update -y
+                            sudo apt-get install -y docker.io
+                            
+                            # Stop and remove any existing container
+                            sudo docker stop myapp || true
+                            sudo docker rm myapp || true
+                            
+                            # Pull and run the new container
+                            sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
+                            sudo docker run -d -p 80:80 --name myapp ${DOCKER_IMAGE}:${DOCKER_TAG}
+                            
+                            echo "Deployment Successful"
+                        EOF
                     """
                 }
             }
-        }
+}
+
     }
 
 
