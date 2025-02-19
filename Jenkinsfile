@@ -83,14 +83,14 @@ pipeline {
                             sudo apt-get update -y
                             sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
-                             # Start Docker service
-                            sudo systemctl enable docker
-                            sudo systemctl start docker
-                                    
                             # Stop and remove any existing container
                             sudo docker stop ${DOCKER_IMAGE}:${DOCKER_TAG} || true
                             sudo docker rm ${DOCKER_IMAGE}:${DOCKER_TAG} || true
-                            
+
+                             # Start Docker service
+                            sudo systemctl enable docker
+                            sudo systemctl start docker
+                                                                
                             # Pull and run the new container
                             sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
                             sudo docker run -d -p 80:90 --name myapp ${DOCKER_IMAGE}:${DOCKER_TAG}
