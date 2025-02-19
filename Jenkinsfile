@@ -94,7 +94,7 @@ pipeline {
                             # Pull and run the new container
                             sudo docker ps -a  # Check running containers
                             sudo docker stop myapp
-                            sudo docker rm -rf myapp
+                            sudo docker rm myapp
                             sudo docker rmi myapp
 
                             #pull and run docker
