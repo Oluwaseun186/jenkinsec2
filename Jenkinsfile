@@ -81,8 +81,12 @@ pipeline {
 
                             # Update system and install Docker
                             sudo apt-get update -y
-                            sudo apt-get install -y docker.io
-                            
+                            sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+                             # Start Docker service
+                            sudo systemctl enable docker
+                            sudo systemctl start docker
+                                    
                             # Stop and remove any existing container
                             sudo docker stop ${DOCKER_IMAGE}:${DOCKER_TAG} || true
                             sudo docker rm ${DOCKER_IMAGE}:${DOCKER_TAG} || true
