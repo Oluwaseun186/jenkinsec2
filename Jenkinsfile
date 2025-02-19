@@ -84,18 +84,18 @@ pipeline {
                             sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
                             # Stop and remove any existing container
-                            sudo docker stop ${DOCKER_IMAGE}:${DOCKER_TAG} || true
-                            sudo docker rm ${DOCKER_IMAGE}:${DOCKER_TAG} || true
+                            # sudo docker stop ${DOCKER_IMAGE}:${DOCKER_TAG} || true
+                            # sudo docker rm ${DOCKER_IMAGE}:${DOCKER_TAG} || true
 
-                             # Start Docker service..
+                            # Start Docker service..
                             #sudo systemctl enable docker
                             #sudo systemctl start docker
                                                                 
-                            # Pull and run the new container
-                            sudo docker ps -a  # Check running containers
-                            sudo docker stop myapp
-                            sudo docker rm myapp
-                            sudo docker rmi myapp
+                            # check new container
+                            # sudo docker ps -a  # Check running containers
+                            # sudo docker stop myapp
+                            # sudo docker rm myapp
+                            
 
                             #pull and run docker
                             sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
@@ -115,7 +115,7 @@ pipeline {
     // POST BUILD FOR FAILURE AND SUCCESS OF RUN JOBS
     post {
         changed {
-            echo "this is job as been successfully completed."
+            echo "this is job as been successfully completed.."
         }
         success {
             script{
