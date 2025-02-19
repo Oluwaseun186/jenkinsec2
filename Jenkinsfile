@@ -69,18 +69,21 @@ pipeline {
 
     // POST BUILD FOR FAILURE AND SUCCESS OF RUN JOBS
     post {
-        changed || cleanup {
+        changed {
             echo "this is job as been successfully completed.."
         }
         success {
-            def build_log = readFile("builder.log")
-            emailext(
-                subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
-                body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}, ${evn.build_log}, ${env.BUILD_NUMBER}",
-                to: "shopar200@gmail.com",
-                replyTo: "shopar200@gmail.com",
-                from: "adewumibode7@gmail.com"
-            )
+            script{
+                def build_log = readFile("builder.log")
+                emailext(
+                    subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+                    body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}, ${evn.build_log}, ${env.BUILD_NUMBER}",
+                    to: "shopar200@gmail.com",
+                    replyTo: "shopar200@gmail.com",
+                    from: "adewumibode7@gmail.com"
+                )
+            }
+
         }
         failure {
                 script{
