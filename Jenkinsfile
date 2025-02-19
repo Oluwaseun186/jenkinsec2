@@ -73,7 +73,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP 
+                        ssh -o StrictHostKeyChecking=no -i $EC2_KEY $EC2_USER@$EC2_IP 
                             echo "Connected to EC2"
                             
                             # Ensure sudo does not require a password
