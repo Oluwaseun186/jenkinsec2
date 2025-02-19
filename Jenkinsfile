@@ -92,6 +92,11 @@ pipeline {
                             sudo systemctl start docker
                                                                 
                             # Pull and run the new container
+                            sudo docker ps -a  # Check running containers
+                            sudo docker stop myapp
+                            sudo docker rm myapp
+
+                            #pull and run docker
                             sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
                             sudo docker run -d -p 80:90 --name myapp ${DOCKER_IMAGE}:${DOCKER_TAG}
                             
