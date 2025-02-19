@@ -74,7 +74,7 @@ pipeline {
                 script {
                     sh """
                         ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP << 'EOF'
-                        sudo apt update && sudo apt install -y docker.io
+                        sudo apt-get update && sudo apt install -y docker.io
                         sudo docker pull your-docker-image
                         sudo docker run -d -p 80:80 your-docker-image
                         EOF
