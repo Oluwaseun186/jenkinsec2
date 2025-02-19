@@ -49,7 +49,7 @@ pipeline {
                     // echo "Building Docker image: ${dapper01/new-test-image}:${1}"
                     
                     // Build Docker image
-                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                  //  sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
 
                     // Use Jenkins credentials to log in to DockerHub securely
                     withCredentials([usernamePassword(credentialsId: 'dockerhub_access', usernameVariable: 'Username', passwordVariable: 'Password')]) {
@@ -58,7 +58,7 @@ pipeline {
                     }
 
                     // Push Docker image
-                    sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                   // sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
                     sh "docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}"
                     //sh "docker run -d -p 80:80 ${DOCKER_IMAGE}:${DOCKER_TAG}"
                 }
