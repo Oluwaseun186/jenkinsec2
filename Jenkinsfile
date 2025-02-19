@@ -99,7 +99,7 @@ pipeline {
 
                             #pull and run docker
                             sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
-                            sudo docker run -d -p 8080:8080 --name myapp ${DOCKER_IMAGE}:${DOCKER_TAG}
+                            sudo docker run -d -p 8080:8080 --name app ${DOCKER_IMAGE}:${DOCKER_TAG}
                             
                             echo "Deployment Successful"
                         
