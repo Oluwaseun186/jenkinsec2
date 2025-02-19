@@ -73,7 +73,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP << EOF
+                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP 
                             echo "Connected to EC2"
                             
                             # Ensure sudo does not require a password
@@ -92,7 +92,7 @@ pipeline {
                             sudo docker run -d -p 80:80 --name myapp ${DOCKER_IMAGE}:${DOCKER_TAG}
                             
                             echo "Deployment Successful"
-                        EOF
+                        
                     """
                 }
             }
