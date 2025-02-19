@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
         DOCKER_IMAGE = "oluwaseun7/myapp"
-        DOCKER_TAG = "1.1.2"
+        DOCKER_TAG = "1.1.3"
         EC2_USER = "ubuntu" // Change if using Amazon Linux ("ec2-user")
         EC2_IP = "54.242.44.26"
         SSH_KEY = credentials('SSH_KEY') // Store the SSH key in Jenkins credentials
@@ -14,7 +14,7 @@ pipeline {
         stage('checkout') {
            // checkout all files
             steps{
-                git branch: "origin", url: "https://github.com/Oluwaseun186/jenkinsfile.git"
+                git branch: "origin", url: "https://github.com/Oluwaseun186/jenkinsec2.git"
             }     
         }
 
@@ -99,7 +99,7 @@ pipeline {
 
                             #pull and run docker
                             sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
-                            sudo docker run -d -p 80:80 --name myapp ${DOCKER_IMAGE}:${DOCKER_TAG}
+                            sudo docker run -d -p 8080:8080 --name myapp ${DOCKER_IMAGE}:${DOCKER_TAG}
                             
                             echo "Deployment Successful"
                         
