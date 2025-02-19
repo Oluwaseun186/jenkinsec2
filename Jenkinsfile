@@ -56,7 +56,7 @@ pipeline {
 
                     // Use Jenkins credentials to log in to DockerHub securely
                     withCredentials([usernamePassword(credentialsId: 'dockerhub_access', usernameVariable: 'Username', passwordVariable: 'Password')]) {
-                        sh "echo 'Logging into DockerHub securely...'"
+                        sh "echo 'Logging into DockerHub securely..'"
                         sh "docker login -u $username -p $Password"
                     }
 
