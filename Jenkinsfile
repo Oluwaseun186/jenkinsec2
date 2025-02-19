@@ -84,8 +84,8 @@ pipeline {
                             sudo apt-get install -y docker.io
                             
                             # Stop and remove any existing container
-                            sudo docker stop myapp || true
-                            sudo docker rm myapp || true
+                            sudo docker stop ${DOCKER_IMAGE}:${DOCKER_TAG} || true
+                            sudo docker rm ${DOCKER_IMAGE}:${DOCKER_TAG} || true
                             
                             # Pull and run the new container
                             sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
@@ -96,7 +96,7 @@ pipeline {
                     """
                 }
             }
-}
+        }
 
     }
 
