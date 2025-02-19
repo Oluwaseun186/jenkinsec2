@@ -4,7 +4,7 @@ pipeline {
             nodejs "node18"
     }
     environment {
-        DOCKER_IMAGE = "oluwaseun7/myapp"
+        DOCKER_IMAGE = "oluwaseun7/myapp_1"
         DOCKER_TAG = "1.1.2"
         EC2_USER = "ubuntu" // Change if using Amazon Linux ("ec2-user")
         EC2_IP = "3.91.152.26"
@@ -93,12 +93,12 @@ pipeline {
                                                                 
                             # Pull and run the new container
                             sudo docker ps -a  # Check running containers
-                            sudo docker stop myapp
-                            sudo docker rm myapp
+                            sudo docker stop myapp_1
+                            sudo docker rm myapp_1
 
                             #pull and run docker
                             sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
-                            sudo docker run -d -p 80:80 --name myapp ${DOCKER_IMAGE}:${DOCKER_TAG}
+                            sudo docker run -d -p 80:80 --name myapp_1 ${DOCKER_IMAGE}:${DOCKER_TAG}
                             
                             echo "Deployment Successful"
                         
