@@ -87,7 +87,7 @@ pipeline {
                             sudo docker stop ${DOCKER_IMAGE}:${DOCKER_TAG} || true
                             sudo docker rm ${DOCKER_IMAGE}:${DOCKER_TAG} || true
 
-                             # Start Docker service
+                             # Start Docker service.
                             sudo systemctl enable docker
                             sudo systemctl start docker
                                                                 
