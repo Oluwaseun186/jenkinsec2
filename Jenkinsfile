@@ -76,7 +76,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                        #ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP 
+                        #ssh -o StrictHostKeyChecking=no -i SSH_KEY EC2_USER@EC2_IP 
                             
                             
                             echo "Connected to EC2"
@@ -86,15 +86,15 @@ pipeline {
 
 
                             # Ensure sudo does not require a password
-                            #sudo -n true 2>/dev/null || echo "$EC2_USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$EC2_USER
+                            #sudo -n true 2>/dev/null || echo "EC2_USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/EC2_USER
 
                             # Update system and install Docker
                             sudo apt-get update -y
                             sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
                             # Stop and remove any existing container
-                            # sudo docker stop ${DOCKER_IMAGE}:${DOCKER_TAG} || true
-                            # sudo docker rm ${DOCKER_IMAGE}:${DOCKER_TAG} || true
+                            # sudo docker stop {DOCKER_IMAGE}:{DOCKER_TAG} || true
+                            # sudo docker rm {DOCKER_IMAGE}:{DOCKER_TAG} || true
 
                             # Start Docker service..
                             #sudo systemctl enable docker
@@ -107,8 +107,8 @@ pipeline {
                             
 
                             #pull and run docker
-                           # sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
-                           # sudo docker run -d -p 3002:8080 --name oldapp ${DOCKER_IMAGE}:${DOCKER_TAG}
+                           # sudo docker pull {DOCKER_IMAGE}:{DOCKER_TAG}
+                           # sudo docker run -d -p 3002:8080 --name oldapp {DOCKER_IMAGE}:{DOCKER_TAG}
                             
                             echo "Deployment Successful"
                         
@@ -116,7 +116,7 @@ pipeline {
                 }
             }
         }
-    }
+    
 }
       //     stage('Deploy to EC2') {
     //         steps {
