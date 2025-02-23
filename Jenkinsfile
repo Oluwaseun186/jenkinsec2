@@ -63,6 +63,13 @@ pipeline {
                     git clone https://github.com/Oluwaseun186/jenkinsec2.git
                     cd jenkinsec2
                     git checkout testing
+                    git init
+                    git add .
+                    git commit -m "added"
+                    gh create repo jenkinsesc3 --public
+                    git remote add origin https://github.com/Oluwaseun186/jenkinsesc3.git
+                    git push -u origin testing
+
 
                     ssh -o StrictHostKeyChecking=no -i "simple.pem" ubuntu@ec2-54-159-134-123.compute-1.amazonaws.com
                     cd Downloads
@@ -121,11 +128,11 @@ pipeline {
                             echo "Deployment Successful"
                         
                     """
-                }
             }
         }
     }
 }
+
       //     stage('Deploy to EC2') {
     //         steps {
     //             script {
