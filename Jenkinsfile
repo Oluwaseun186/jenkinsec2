@@ -82,7 +82,7 @@ pipeline {
                             echo "Connected to EC2"
                             chmod 400 "simple.pem"
                             ssh -i "simple.pem" ubuntu@ec2-54-159-134-123.compute-1.amazonaws.com
-
+                            
 
 
                             # Ensure sudo does not require a password
@@ -116,7 +116,7 @@ pipeline {
                 }
             }
         }
-    
+    }
 }
       //     stage('Deploy to EC2') {
     //         steps {
