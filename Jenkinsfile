@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        node_1 "node_1"
+        label "node_1"
     }
     //     tools {
     //         nodejs "node18"
