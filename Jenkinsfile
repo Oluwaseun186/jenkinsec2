@@ -48,7 +48,7 @@ pipeline {
                   
             }
         }
-    }    
+        
     //     stage("build docker image") {
     //         steps {
     //             script {
@@ -72,10 +72,10 @@ pipeline {
     
     //     }
     // }
-    stage('Deploy to EC2') {
-        steps {
-            script {
-                sh """
+        stage('Deploy to EC2') {
+            steps {
+                script {
+                    sh """
                         #ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP 
                             
                             
