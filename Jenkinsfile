@@ -5,13 +5,13 @@ pipeline {
     //     tools {
     //         nodejs "node18"
     // }
-    environment {
-        //DOCKER_IMAGE = "oluwaseun7/myapp"
-        //DOCKER_TAG = "1.0.3"
-      //  EC2_USER = "ubuntu" // Change if using Amazon Linux ("ec2-user")
-        // EC2_IP = "54.242.44.26"
-        //SSH_KEY = credentials('SSH_KEY') // Store the SSH key in Jenkins credentials
-    }
+    // environment {
+    //     DOCKER_IMAGE = "oluwaseun7/myapp"
+    //     DOCKER_TAG = "1.0.3"
+    //     EC2_USER = "ubuntu" // Change if using Amazon Linux ("ec2-user")
+    //     EC2_IP = "54.159.134.123"
+    //     SSH_KEY = credentials('SSH_KEY') // Store the SSH key in Jenkins credentials
+    // }
     stages {
         stage('checkout') {
            // checkout all files
@@ -48,30 +48,76 @@ pipeline {
                   
             }
         }
-        stage("build docker image") {
+    //     stage("build docker image") {
+    //         steps {
+    //             script {
+    //                 // echo "Building Docker image: ${dapper01/new-test-image}:${1}"
+            
+    //                 // Build Docker image
+    //                 sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+
+    //                 // Use Jenkins credentials to log in to DockerHub securely
+    //                 withCredentials([usernamePassword(credentialsId: 'dockerhub_access', usernameVariable: 'Username', passwordVariable: 'Password')]) {
+    //                     sh "echo 'Logging into DockerHub securely..'"
+    //                     sh "docker login -u $username -p $Password"
+    //                 }
+
+    //                 // Push Docker image
+    //                 sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
+    //                 sh "docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}"
+    //                 sh "docker run -d -p 3003:80 ${DOCKER_IMAGE}:${DOCKER_TAG}"
+    //             }
+    //         }
+    
+    //     }
+    // }
+        stage('Deploy to EC2') {
             steps {
                 script {
-                    // echo "Building Docker image: ${dapper01/new-test-image}:${1}"
-            
-                    // Build Docker image
-                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                    sh """
+                        #ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_IP 
+                            
+                            
+                            echo "Connected to EC2"
+                            chmod 400 "simple.pem"
+                            ssh -i "simple.pem" ubuntu@ec2-54-159-134-123.compute-1.amazonaws.com
 
-                    // Use Jenkins credentials to log in to DockerHub securely
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub_access', usernameVariable: 'Username', passwordVariable: 'Password')]) {
-                        sh "echo 'Logging into DockerHub securely..'"
-                        sh "docker login -u $username -p $Password"
-                    }
 
-                    // Push Docker image
-                    sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
-                    sh "docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}"
-                    sh "docker run -d -p 3003:80 ${DOCKER_IMAGE}:${DOCKER_TAG}"
+
+                            # Ensure sudo does not require a password
+                            #sudo -n true 2>/dev/null || echo "$EC2_USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$EC2_USER
+
+                            # Update system and install Docker
+                            sudo apt-get update -y
+                            sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+                            # Stop and remove any existing container
+                            # sudo docker stop ${DOCKER_IMAGE}:${DOCKER_TAG} || true
+                            # sudo docker rm ${DOCKER_IMAGE}:${DOCKER_TAG} || true
+
+                            # Start Docker service..
+                            #sudo systemctl enable docker
+                            #sudo systemctl start docker
+                                                                
+                            # check new container
+                            # sudo docker ps -a  # Check running containers
+                            # sudo docker stop myapp
+                            # sudo docker rm myapp
+                            
+
+                            #pull and run docker
+                           # sudo docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
+                           # sudo docker run -d -p 3002:8080 --name oldapp ${DOCKER_IMAGE}:${DOCKER_TAG}
+                            
+                            echo "Deployment Successful"
+                        
+                    """
                 }
             }
-    
         }
+
     }
-    //     stage('Deploy to EC2') {
+      //     stage('Deploy to EC2') {
     //         steps {
     //             script {
     //                 sh """
@@ -114,37 +160,38 @@ pipeline {
 
 
 
-    // POST BUILD FOR FAILURE AND SUCCESS OF RUN JOBS
-    post {
-        changed {
-            echo "this is job as been successfully completed.."
-        }
-        success {
-            script{
-                def build_log = readFile("builder.log")
-                emailext(
-                    subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
-                    body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}, ${env.build_log}, ${env.BUILD_NUMBER}",
-                    to: "shopar200@gmail.com",
-                    replyTo: "shopar200@gmail.com",
-                    from: "adewumibode7@gmail.com"
-                )
-            }
 
-        }
-        failure {
-                script{
-                     //def build_log = currentBuild.rawBuild.getLog(100).join('\n') 
-                     //def build_log = Manager.build.log
-                     def build_log = readFile("build.log")
-                        emailext(
-                            subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
-                            body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}, ${build_log}, ${env.BUILD_NUMBER}",
-                            to: "shopar200@gmail.com",
-                            replyTo: "shopar200@gmail.com",
-                            from: "adewumibode7@gmail.com"
-                        )                    
-                }
-        }
-    }
-}
+    // POST BUILD FOR FAILURE AND SUCCESS OF RUN JOBS
+//     post {
+//         changed {
+//             echo "this is job as been successfully completed.."
+//         }
+//         success {
+//             script{
+//                 def build_log = readFile("builder.log")
+//                 emailext(
+//                     subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+//                     body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}, ${env.build_log}, ${env.BUILD_NUMBER}",
+//                     to: "shopar200@gmail.com",
+//                     replyTo: "shopar200@gmail.com",
+//                     from: "adewumibode7@gmail.com"
+//                 )
+//             }
+
+//         }
+//         failure {
+//                 script{
+//                      //def build_log = currentBuild.rawBuild.getLog(100).join('\n') 
+//                      //def build_log = Manager.build.log
+//                      def build_log = readFile("build.log")
+//                         emailext(
+//                             subject: "Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+//                             body: "Build Status: ${currentBuild.currentResult}\nCheck the console output at ${env.BUILD_URL}, ${build_log}, ${env.BUILD_NUMBER}",
+//                             to: "shopar200@gmail.com",
+//                             replyTo: "shopar200@gmail.com",
+//                             from: "adewumibode7@gmail.com"
+//                         )                    
+//                 }
+//         }
+//     }
+// }
