@@ -80,7 +80,7 @@ pipeline {
             }
     
         }
-    }
+    
         stage('Deploy to EC2') {
             steps {
                 script {
@@ -128,9 +128,10 @@ pipeline {
                             echo "Deployment Successful"
                         
                     """
+                }
             }
-        }
-    }
+         }
+    }     
 }
 
       //     stage('Deploy to EC2') {
