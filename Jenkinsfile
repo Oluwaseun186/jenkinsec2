@@ -49,29 +49,31 @@ pipeline {
             }
         }
         
-    //     stage("build docker image") {
-    //         steps {
-    //             script {
-    //                 // echo "Building Docker image: ${dapper01/new-test-image}:${1}"
-            
-    //                 // Build Docker image
-    //                 sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+        stage("build docker image") {
+            steps {
+                script {
+                    sh """
 
-    //                 // Use Jenkins credentials to log in to DockerHub securely
-    //                 withCredentials([usernamePassword(credentialsId: 'dockerhub_access', usernameVariable: 'Username', passwordVariable: 'Password')]) {
-    //                     sh "echo 'Logging into DockerHub securely..'"
-    //                     sh "docker login -u $username -p $Password"
-    //                 }
+                    echo "Connected to EC2"
+                    ssh -o StrictHostKeyChecking=no -i "my_app.pem" ubuntu@ec2-18-233-98-126.compute-1.amazonaws.com
+                    cd Downloads
+                    cat "my_app.pem" && chmod 400 "my_app.pem"
+                    cd
+                    mkdir jenkinsec2
+                    git clone https://github.com/Oluwaseun186/jenkinsec2.git
+                    cd jenkinsec2
+                    git checkout testing
 
-    //                 // Push Docker image
-    //                 sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
-    //                 sh "docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}"
-    //                 sh "docker run -d -p 3003:80 ${DOCKER_IMAGE}:${DOCKER_TAG}"
-    //             }
-    //         }
+                    ssh -o StrictHostKeyChecking=no -i "simple.pem" ubuntu@ec2-54-159-134-123.compute-1.amazonaws.com
+                    cd Downloads
+                    cat simple.pem && chmod 400 simple.pem
+
+                    """
+                }
+            }
     
-    //     }
-    // }
+        }
+    }
         stage('Deploy to EC2') {
             steps {
                 script {
@@ -80,8 +82,14 @@ pipeline {
                             
                             
                             echo "Connected to EC2"
-                            chmod 400 "simple.pem"
+                            
                             ssh -i "simple.pem" ubuntu@ec2-54-159-134-123.compute-1.amazonaws.com
+                            cd Downloads
+                            cat simple.pem && chmod 400 simple.pem
+                            cd
+                            
+                           
+                            
                             
 
 
